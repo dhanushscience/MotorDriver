@@ -18,7 +18,7 @@ This Arduino library provides a simple and flexible way to connect various motor
 
 ## Examples
 
-Check out the [Examples](link-to-examples-folder) folder to find sample sketches demonstrating how to use this library with different motor driver modules.
+Check out the [Examples](examples) folder to find sample sketches demonstrating how to use this library with different motor driver modules.
 
 ## Contributing
 
