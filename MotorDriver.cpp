@@ -45,6 +45,11 @@ void MotorDriver::begin(short EA = -1, short EB = -1, short M1A, short M1B, shor
       pinMode(LeftEnable,OUTPUT);
     }
 
+    else 
+    {
+      EN_CON = false;
+    }
+
     #ifdef DEBUG
 
       if(RightForward == 5 ,RightBackward == 6, LeftForward == 9, LeftBackward == 10)
@@ -112,244 +117,51 @@ void MotorDriver::move(uint8_t RSpeed=255, uint8_t LSpeed=255, bool RFState=LOW,
     }
   }
 
-void MotorDriver::Forward(int speed=100,int time = -1)
-    {
+void MotorDriver::Forward(uint8_t speed=100,uint8_t time = -1)
+  {
+    uint8_t pwmValue = 255*(speed/100);
+    move(pwmValue,pwmValue,1,0,1,0,time);
+  }
 
-      ////mkkkkk 
-    }
-void MotorDriver::Backward(int speed=100,int time = -1)
-        {
-                       if(speed<0 || speed>100)
-            {
-                Serial.println("***INVALID SPEED VALUE***");
-                return;
-            }
+void MotorDriver::Backward(uint8_t speed=100,uint8_t time = -1)
+  {
+    uint8_t pwmValue = 255*(speed/100);
+    move(pwmValue,pwmValue,0,1,0,1,time); 
+  }
 
-            if(time !=-1 && time <=0)
-            {
-                Serial.println("***TIME CANT BE 0 OR LESS THAT ZERO***");
-                return;
-            }
+void MotorDriver::HardRight(uint8_t Rspeed=100, uint8_t Lspeed=100 ,uint8_t time = -1)
+  {
+    uint8_t pwmValueR = 255*(Rspeed/100);
+    uint8_t pwmValueL = 255*(Lspeed/100);
 
-            if(speed < 100)
-            {
-                int pwmValue = 255*(speed/100);
+    move(pwmValueR,pwmValueL,1,0,0,1,time);
+  }
 
-                analogWrite(RightForward,0);
-                analogWrite(RightBackward,pwmValue);
-                analogWrite(LeftForward,0);
-                analogWrite(LeftBackward,pwmValue);
-            }
-            
-            if(speed == 100)
-            {
-                digitalWrite(RightForward,LOW);
-                digitalWrite(RightBackward,HIGH);
-                digitalWrite(LeftForward,LOW);
-                digitalWrite(LeftBackward,HIGH);
-            }
+void MotorDriver::HardLeft(uint8_t Rspeed=100, uint8_t Lspeed=100 ,uint8_t time = -1)
+  {
+    uint8_t pwmValueR = 255*(Rspeed/100);
+    uint8_t pwmValueL = 255*(Lspeed/100);
 
+    move(pwmValueR,pwmValueL,0,1,1,0,time);
+  }
 
-            if(time != -1)
-            {
-                delay(time*1000);
-            }
-        }
-
-void MotorDriver::HardRight(int speed=100,int time = -1)
-        {
-            if(speed<0 || speed>100)
-            {
-                Serial.println("***INVALID SPEED VALUE***");
-                return;
-            }
-
-            if(time !=-1 && time <=0)
-            {
-                Serial.println("***TIME CANT BE 0 OR LESS THAT ZERO***");
-                return;
-            }
-
-            if(speed < 100)
-            {
-                int pwmValue = 255*(speed/100);
-
-                analogWrite(RightForward,pwmValue);
-                analogWrite(RightBackward,0);
-                analogWrite(LeftForward,0);
-                analogWrite(LeftBackward,pwmValue);
-            }
-            
-            if(speed == 100)
-            {
-                digitalWrite(RightForward,HIGH);
-                digitalWrite(RightBackward,LOW);
-                digitalWrite(LeftForward,LOW);
-                digitalWrite(LeftBackward,HIGH);
-            }
-
-
-            if(time != -1)
-            {
-                delay(time*1000);
-            }
-            
-        }
-void MotorDriver::HardLeft(int speed=100,int time = -1)
-        {
-             if(speed<0 || speed>100)
-            {
-                Serial.println("***INVALID SPEED VALUE***");
-                return;
-            }
-
-            if(time !=-1 && time <=0)
-            {
-                Serial.println("***TIME CANT BE 0 OR LESS THAT ZERO***");
-                return;
-            }
-
-            if(speed < 100)
-            {
-                int pwmValue = 255*(speed/100);
-
-                analogWrite(RightForward,0);
-                analogWrite(RightBackward,pwmValue);
-                analogWrite(LeftForward,pwmValue);
-                analogWrite(LeftBackward,0);
-            }
-            
-            if(speed == 100)
-            {
-                digitalWrite(RightForward,LOW);
-                digitalWrite(RightBackward,HIGH);
-                digitalWrite(LeftForward,HIGH);
-                digitalWrite(LeftBackward,LOW);
-            }
-
-
-            if(time != -1)
-            {
-                delay(time*1000);
-            }
-            
-        }
 void MotorDriver::SoftRight(int speed=100,int time = -1)
-        {
-            if(speed<0 || speed>100)
-            {
-                Serial.println("***INVALID SPEED VALUE***");
-                return;
-            }
-
-            if(time !=-1 && time <=0)
-            {
-                Serial.println("***TIME CANT BE 0 OR LESS THAT ZERO***");
-                return;
-            }
-
-            if(speed < 100)
-            {
-                int pwmValue = 255*(speed/100);
-
-                analogWrite(RightForward,pwmValue);
-                analogWrite(RightBackward,0);
-                analogWrite(LeftForward,0);
-                analogWrite(LeftBackward,0);
-            }
-            
-            if(speed == 100)
-            {
-                digitalWrite(RightForward,HIGH);
-                digitalWrite(RightBackward,LOW);
-                digitalWrite(LeftForward,LOW);
-                digitalWrite(LeftBackward,LOW);
-            }
-
-
-            if(time != -1)
-            {
-                delay(time*1000);
-            }
-            
-        }
+  {
+    uint8_t pwmValue = 255*(speed/100);
+    move(pwmValue,pwmValue,1,0,0,0,time); 
+  }
         
 void MotorDriver::SoftLeft(int speed=100,int time = -1)
-        {
-            if(speed<0 || speed>100)
-            {
-                Serial.println("***INVALID SPEED VALUE***");
-                return;
-            }
+  {
+    uint8_t pwmValue = 255*(speed/100);
+    move(pwmValue,pwmValue,0,0,1,0,time); 
+  }
 
-            if(time !=-1 && time <=0)
-            {
-                Serial.println("***TIME CANT BE 0 OR LESS THAT ZERO***");
-                return;
-            }
-
-            if(speed < 100)
-            {
-                int pwmValue = 255*(speed/100);
-
-                analogWrite(RightForward,0);
-                analogWrite(RightBackward,0);
-                analogWrite(LeftForward,pwmValue);
-                analogWrite(LeftBackward,0);
-            }
-            
-            if(speed == 100)
-            {
-                digitalWrite(RightForward,LOW);
-                digitalWrite(RightBackward,LOW);
-                digitalWrite(LeftForward,HIGH);
-                digitalWrite(LeftBackward,LOW);
-            }
-
-
-            if(time != -1)
-            {
-                delay(time*1000);
-            }
-        }
-void MotorDriver::RotateCW(int time = -1)
-        {
-
-            digitalWrite(RightForward,LOW);
-            digitalWrite(RightBackward,HIGH);
-            digitalWrite(LeftForward,HIGH);
-            digitalWrite(LeftBackward,LOW);
-
-
-            if(time != -1)
-            {
-                delay(time*1000);
-            }
-        }
-void MotorDriver::RotateACW(int time = -1)
-        {
-    
-            digitalWrite(RightForward,LOW);
-            digitalWrite(RightBackward,HIGH);
-            digitalWrite(LeftForward,HIGH);
-            digitalWrite(LeftBackward,LOW);
-
-            if(time != -1)
-            {
-                delay(time*1000);
-            }
-        }
 void MotorDriver::Hardstop()
-        {
-            digitalWrite(RightForward,LOW);
-            digitalWrite(RightBackward,LOW);
-            digitalWrite(LeftForward,LOW);
-            digitalWrite(LeftBackward,LOW);
-        }
+  {
+    move(0,0,0,0,0,0,time);
+  }
 void MotorDriver::SoftStop()
-        {
-            digitalWrite(RightForward,HIGH);
-            digitalWrite(RightBackward,HIGH);
-            digitalWrite(LeftForward,HIGH);
-            digitalWrite(LeftBackward,HIGH);
-        }
+  {
+    move(0,0,1,1,1,1,time);
+  }
