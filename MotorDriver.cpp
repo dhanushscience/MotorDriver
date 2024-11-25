@@ -2,19 +2,24 @@
 
 MotorDriver::MotorDriver()
     {     
-        int M1A=0;
-        int M1B=0;
-        int M2A=0;
-        int M2B=0;
+        short M1A=0;
+        short M1B=0;
+        short M2A=0;
+        short M2B=0;
+        short EA=0;
+        short EB=0; 
+        
         int baud = 9600;
     }
 
-void MotorDriver::begin(int M1A, int M1B, int M2A, int M2B,int baud = 9600)
+void MotorDriver::begin(short EA, short EB, short M1A, short M1B, short M2A, short M2B,int baud = 9600)
         {
             RightForward = M1A;
             RightBackward = M1B;
             LeftForward = M2A;
             LeftBackward = M2B;
+            RightEnable = EA;
+            LeftEnable = EB;
 
             if(RightForward == 5,RightBackward == 6, LeftForward == 9, LeftBackward == 10, baud == 9600)
             {
