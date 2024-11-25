@@ -22,7 +22,7 @@ MotorDriver::MotorDriver()
       #endif   
     }
 
-void MotorDriver::begin(uint8_t EA = -1, uint8_t EB = -1, uint8_t M1A, uint8_t M1B, uint8_t M2A, uint8_t M2B)
+void MotorDriver::begin(int8_t EA = -1, int8_t EB = -1, uint8_t M1A, uint8_t M1B, uint8_t M2A, uint8_t M2B)
   {
     RightForward = M1A;
     RightBackward = M1B;
@@ -65,7 +65,7 @@ void MotorDriver::begin(uint8_t EA = -1, uint8_t EB = -1, uint8_t M1A, uint8_t M
     #endif
   }
 
-void MotorDriver::move(uint8_t RSpeed=255, uint8_t LSpeed=255, bool RFState=LOW, bool RBState=LOW, bool LFState=LOW, bool LBState=LOW, short time = -1)
+void MotorDriver::move(uint8_t RSpeed=255, uint8_t LSpeed=255, bool RFState=LOW, bool RBState=LOW, bool LFState=LOW, bool LBState=LOW, uint8_t time = -1)
   {
 
     if((RSpeed<0) | (RSpeed>255) | (LSpeed<0) | (LSpeed>255))
