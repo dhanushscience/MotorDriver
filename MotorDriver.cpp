@@ -22,7 +22,7 @@ MotorDriver::MotorDriver()
       #endif   
     }
 
-void MotorDriver::begin(short EA = -1, short EB = -1, short M1A, short M1B, short M2A, short M2B)
+void MotorDriver::begin(uint8_t EA = -1, uint8_t EB = -1, uint8_t M1A, uint8_t M1B, uint8_t M2A, uint8_t M2B)
   {
     RightForward = M1A;
     RightBackward = M1B;
