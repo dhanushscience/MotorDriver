@@ -1,54 +1,48 @@
 #include "MotorDriver.h"
 
+bool EN_CON;
+uint8_t time;
+		
 MotorDriver::MotorDriver()
     {   
-      #ifdef MDD3A
-        short M1A=5;
-        short M1B=6;
-        short M2A=9;
-        short M2B=10;
 
-        bool EN_CON = false;
+      #ifdef MDD3A
+        uint8_t M1A=5;
+        uint8_t M1B=6;
+        uint8_t M2A=9;
+        uint8_t M2B=10;
+
+        EN_CON = false;
 
       #else
-        short M1A=2;
-        short M1B=3;
-        short M2A=4;
-        short M2B=5;
-        short EA=6;
-        short EB=9;
-
-        bool EN_CON=false;
+        uint8_t M1A=2;
+        uint8_t M1B=3;
+        uint8_t M2A=4;
+        uint8_t M2B=5;
+        uint8_t EA=6;
+        uint8_t EB=9;
+		
       #endif   
     }
 
-void MotorDriver::begin(int8_t EA = -1, int8_t EB = -1, uint8_t M1A, uint8_t M1B, uint8_t M2A, uint8_t M2B)
+void MotorDriver::begin(uint8_t EA , uint8_t EB, uint8_t M1A , uint8_t M1B, uint8_t M2A, uint8_t M2B)
   {
     RightForward = M1A;
     RightBackward = M1B;
     LeftForward = M2A;
     LeftBackward = M2B;
+	RightEnable = EA;
+    LeftEnable = EB;
 
     pinMode(RightForward,OUTPUT);
     pinMode(RightBackward,OUTPUT);
     pinMode(LeftForward,OUTPUT);
     pinMode(LeftBackward,OUTPUT);
 
-    if(EA != -1 && EB != -1)
-    {
-      RightEnable = EA;
-      LeftEnable = EB;
+    EN_CON = true;
 
-      EN_CON = true;
-
-      pinMode(RightEnable,OUTPUT);
-      pinMode(LeftEnable,OUTPUT);
-    }
-
-    else 
-    {
-      EN_CON = false;
-    }
+    pinMode(RightEnable,OUTPUT);
+    pinMode(LeftEnable,OUTPUT);
 
     #ifdef DEBUG
 
@@ -65,7 +59,36 @@ void MotorDriver::begin(int8_t EA = -1, int8_t EB = -1, uint8_t M1A, uint8_t M1B
     #endif
   }
 
-void MotorDriver::move(uint8_t RSpeed=255, uint8_t LSpeed=255, bool RFState=LOW, bool RBState=LOW, bool LFState=LOW, bool LBState=LOW, uint8_t time = -1)
+void MotorDriver::begin( uint8_t M1A , uint8_t M1B, uint8_t M2A, uint8_t M2B)
+  {
+    RightForward = M1A;
+    RightBackward = M1B;
+    LeftForward = M2A;
+    LeftBackward = M2B;
+
+    pinMode(RightForward,OUTPUT);
+    pinMode(RightBackward,OUTPUT);
+    pinMode(LeftForward,OUTPUT);
+    pinMode(LeftBackward,OUTPUT);
+
+      EN_CON = false;
+
+    #ifdef DEBUG
+
+      if(RightForward == 5 ,RightBackward == 6, LeftForward == 9, LeftBackward == 10)
+      {
+        #warning "--DEFAULT Mode selected--"
+      }
+      
+      else
+      {
+        #warning "--CUSTOM Mode selected--"
+      }
+
+    #endif
+  }
+
+void MotorDriver::move(uint8_t RSpeed=255, uint8_t LSpeed=255, bool RFState=LOW, bool RBState=LOW, bool LFState=LOW, bool LBState=LOW,uint8_t time = -1)
   {
 
     if((RSpeed<0) | (RSpeed>255) | (LSpeed<0) | (LSpeed>255))
@@ -145,13 +168,13 @@ void MotorDriver::HardLeft(uint8_t Rspeed=100, uint8_t Lspeed=100 ,uint8_t time 
     move(pwmValueR,pwmValueL,0,1,1,0,time);
   }
 
-void MotorDriver::SoftRight(int speed=100,int time = -1)
+void MotorDriver::SoftRight(uint8_t speed=100,uint8_t time = -1)
   {
     uint8_t pwmValue = 255*(speed/100);
     move(pwmValue,pwmValue,1,0,0,0,time); 
   }
         
-void MotorDriver::SoftLeft(int speed=100,int time = -1)
+void MotorDriver::SoftLeft(uint8_t speed=100,uint8_t time = -1)
   {
     uint8_t pwmValue = 255*(speed/100);
     move(pwmValue,pwmValue,0,0,1,0,time); 
