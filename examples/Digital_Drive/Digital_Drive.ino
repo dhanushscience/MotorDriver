@@ -25,7 +25,8 @@ Issue/recommendation contact : contactdhanush@proton.me
 MotorDriver motor;
 void setup()
 {
-  motor.begin(5,6,9,10,9600); //Declare: (M1A,M1B,M2A,M2B,BaudRate)
+  Serial.begin(9600);
+  motor.begin(6,9,2,3,4,5); //Declare: (EA,EB,M1A,M1B,M2A,M2B)
   Serial.println("Motor starting");
 }
 void loop()
@@ -37,7 +38,5 @@ void loop()
   motor.Hardstop(); // Nothing Required here
   motor.SoftLeft(); // (SPEED,TIME) --> speed in percentage (1-100) , Time in Second; "BY DEFAULT 100% SPEED & NO DELAY"
   motor.SoftRight(); // (SPEED,TIME) --> speed in percentage (1-100) , Time in Second; "BY DEFAULT 100% SPEED & NO DELAY"
-  motor.RotateCW(); // (TIME) Time in Seconds--> "BY DEFAULT 100% SPEED & NO DELAY"
-  motor.RotateACW(); // (TIME) Time in Seconds--> "BY DEFAULT 100% SPEED & NO DELAY"
   motor.SoftStop(); // Nothing Required here
 }
